@@ -16,7 +16,7 @@ const ResizableAndDraggableContainer = ({ containerNo }) => {
                 <div
                     className='w-full h-full flex items-center justify-center'
                 >
-                    Container {containerNo}
+                    Component {containerNo}
                 </div>
             </Resizable>
         </Draggable>
