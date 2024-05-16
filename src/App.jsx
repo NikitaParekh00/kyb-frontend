@@ -1,21 +1,13 @@
+
 import './App.css'
-import ResizableAndDraggableContainer from './ResizableAndDraggableContainer';
+import Layout from './components/Layout'
 
 function App() {
 
   return (
-    <div className='flex flex-col gap-11'>
-      <h1 className="text-3xl font-bold ">
-        Resize the components or drag anywhere on the component to move it
-      </h1>
-
-      <div className='flex justify-between'>
-        <ResizableAndDraggableContainer containerNo={1} />
-        <ResizableAndDraggableContainer containerNo={2} />
-        <ResizableAndDraggableContainer containerNo={3} />
-      </div>
-
-
+    <div className='flex flex-col gap-5'>
+      <h1 className='flex justify-center font-bold text-3xl'>Resize the components by dragging from sides</h1>
+      <Layout />
     </ div>
   )
 }
