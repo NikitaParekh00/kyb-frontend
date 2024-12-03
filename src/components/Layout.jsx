@@ -9,7 +9,7 @@ const Layout = () => {
   
     try {
       // Append the query parameter to the URL
-      const response = await fetch(`https://kyb-backend.vercel.app/api/kyb?query=${query}`, {
+      const response = await fetch(`https://kyb-backend.vercel.app/api/kyb?membershipNumber=${query}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
