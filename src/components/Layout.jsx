@@ -1,33 +1,52 @@
+import React, { useState } from 'react';
+import './Layout.css';
 
-import './Layout.css'
-import {
-  Panel,
-  PanelGroup,
-  PanelResizeHandle,
-} from "react-resizable-panels";
-import ChildContainer from './ChildContainer';
 const Layout = () => {
+  const [query, setQuery] = useState("");
 
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+  
+    try {
+      // Append the query parameter to the URL
+      const response = await fetch(`https://kyb-backend.vercel.app/api/kyb?query=${query}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+  
+      const data = await response.json();
+      console.log("API Response:", data);
+  
+      // Perform further actions with the response data if needed
+    } catch (error) {
+      console.error("Error while calling API:", error);
+    }
+  };
+  
   return (
-    <div className="container">
-    <PanelGroup direction="vertical">
-       <Panel>
-         <PanelGroup direction="horizontal" className='hori'>
-            <Panel defaultSize={20} minSize={20} maxSize={75} >
-              <ChildContainer number={1} name="child1" />
-           </Panel>
-           <PanelResizeHandle />
-           <Panel defaultSize={50} minSize={20}  maxSize={75}>
-           <ChildContainer number={2} name="child2" />
-           </Panel>
-         </PanelGroup>
-        </Panel>
-        <PanelResizeHandle />
-        <Panel defaultSize={40} minSize={20}  maxSize={75}>
-        <ChildContainer number={3} name="child3" />
-       </Panel>
-     </PanelGroup>
-      
+    <div className="layout-container">
+      <form className="search-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Enter your query"
+            className="form-input"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <button type="submit" className="form-button">
+            Search
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
