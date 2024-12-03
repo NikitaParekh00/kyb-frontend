@@ -41,11 +41,12 @@ const Layout = () => {
             onChange={(e) => setQuery(e.target.value)}
           />
         </div>
-        <div className="form-group">
-          <button type="submit" className="form-button">
-            Search
-          </button>
-        </div>
+        <div className="form-group" style={{ padding: "10px 0px" }}>
+  <button type="submit" className="form-button">
+    Search
+  </button>
+</div>
+
       </form>
     </div>
   );
