@@ -17,10 +17,11 @@ const Layout = () => {
     img.onload = () => {
       // Add the image to the PDF as a background
      // Add background image starting a bit below the top (Y=20 for example)
-  const imageHeight = 68; // Set the height for the top image
-  const imageYPosition = 19; // Y position to start the image below the top margin
+  const imageHeight = 63; // Set the height for the top image
+  const imageYPosition = 24; // Y position to start the image below the top margin
+  const imageLeftMargin = 27; // Add some space on the left side (adjust this value as needed)
 
-  doc.addImage(img, "JPEG", 0, imageYPosition, 199, imageHeight); // Image starting at Y = 20
+  doc.addImage(img, "JPEG", imageLeftMargin, imageYPosition, 175, imageHeight); // Image starting at Y = 20, with left margin
 
       // Title
       doc.setFont("helvetica", "bold"); // Set font to bold
@@ -32,12 +33,12 @@ const Layout = () => {
 
       // Define rows (no column headings)
       const rows = [
+        ["Voter Serial No.:", data.voterSerialNo || "N/A"],
         ["Membership No.:", data.MRN || "N/A"],
         ["Name:", data.name || "N/A"],
-        ["Voter Serial No.:", data.voterSerialNo || "N/A"],
+        ["Location:", data.location || "N/A"],
         ["Booth No.:", data.boothNo || "N/A"],
         ["Booth Address:", data.address || "N/A"],
-        ["Location:", data.location || "N/A"],
         ["Date:", data.date || "N/A"],
       ];
 
@@ -54,16 +55,18 @@ const Layout = () => {
         startY: 30, // Start table after the title
         // margin: { left: 20 }, // Add left margin for better alignment
         columnStyles: {
-          0: { cellWidth: 40,  fontStyle: "bold" }, // Fixed width for label column
+          0: { cellWidth: 43,  fontStyle: "bold" }, // Fixed width for label column
           1: { cellWidth: 145 }, // Fixed width for value column
         },
-        // didDrawCell: (data) => {
-        //     // Check if the current cell is the "Location" value (row index 5, column index 1)
-        //     if (data.row.index === 5 && data.column.index === 1) {
-        //       // Set the text color to blue for "Location" value
-        //       doc.setTextColor(0, 0, 255); // Blue color
-        //     }
-        //   },
+        didDrawCell: (data) => {
+            if (data.row.index === 3 && data.column.index === 1) {
+                // Set the text color to blue for "Location" value
+                doc.setTextColor(0, 0, 255); // Blue color
+                // Redraw the cell's text with blue color
+                
+                doc.text(data.cell.text, data.cell.x + 1.8, data.cell.y + 4.9); // Adjust Y slightly if necessary, keeping it within the cell's bounds
+            }
+          },
       });
 
       // Save the PDF
@@ -79,9 +82,9 @@ const Layout = () => {
       const bottomImg = new Image();
       bottomImg.src = "/img/kyb3.jpeg"; // Replace with your bottom image path
       bottomImg.onload = () => {
-        doc.addImage(bottomImg, "JPEG", 12, imageBottomY, 190, 130); // Image dimensions and position
+        doc.addImage(bottomImg, "JPEG", 14, imageBottomY, 188, 130); // Image dimensions and position
         // Save the PDF
-        const filename = `Polling_Booth_${data.MRN || "Details"}.pdf`;
+        const filename = `Polling_Booth_${data.name}_${data.MRN || "Details"}.pdf`;
         doc.save(filename);
       };
     };
